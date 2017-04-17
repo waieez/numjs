@@ -39,7 +39,7 @@ function multiply(B, A) {
   const { n } = shape(A);
   assert.equal(m, n, "Dimensions of A and B must be compatible");
   // const out = colMap(A, (v, idx) => multiplyMv(B, v));
-  // return colMap(out, row => row);
+  // return transpose(out);
   // the above is way easier to reason about than:
   return B.map(row => {
     const slice = [];

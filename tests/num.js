@@ -43,25 +43,41 @@ test("isVector", function(assert) {
 test("shape", function(assert) {
   const { v, A } = setup();
   let shape = _.shape(v);
-  assert.equal(shape.n, 2, 'vectors should be represented as 2x1 matrix');
-  assert.equal(shape.m, 1, 'vectors should be represented as 2x1 matrix');
+  assert.equal(shape.n, 2, "vectors should be represented as 2x1 matrix");
+  assert.equal(shape.m, 1, "vectors should be represented as 2x1 matrix");
 
   shape = _.shape(A);
-  assert.equal(shape.n, 2, 'n of a 2x2 matrix should be 2');
-  assert.equal(shape.m, 2, 'm of a 2x2 matrix should be 2');
+  assert.equal(shape.n, 2, "n of a 2x2 matrix should be 2");
+  assert.equal(shape.m, 2, "m of a 2x2 matrix should be 2");
   assert.end();
 });
 
-test('multiplication, MxV', function (assert) {
-  const {A, B, v} = setup();
-  assert.deepEqual(_.multiplyMv(A, v), [5, 11], 'Vector Multiplication with Matrix should work');
-  assert.deepEqual(_.multiply(A, v), [5, 11], 'Vector Multiplication with Matrix should work');
+test("multiplication, MxV", function(assert) {
+  const { A, B, v } = setup();
+  assert.deepEqual(
+    _.multiplyMv(A, v),
+    [5, 11],
+    "Vector Multiplication with Matrix should work"
+  );
+  assert.deepEqual(
+    _.multiply(A, v),
+    [5, 11],
+    "Vector Multiplication with Matrix should work"
+  );
   assert.end();
 });
 
-test('multiplication, MxM', function (assert) {
-  const {A, B, C, D} = setup();
-  assert.deepEqual(_.multiply(A, B), [[19, 22],[43, 50]], 'Matrix Multiplication with Matrix should work');
-  assert.deepEqual(_.multiply(C, D), [[14]], 'Matrix Multiplication with Matrix should work');
+test("multiplication, MxM", function(assert) {
+  const { A, B, C, D } = setup();
+  assert.deepEqual(
+    _.multiply(A, B),
+    [[19, 22], [43, 50]],
+    "Matrix Multiplication with Matrix should work"
+  );
+  assert.deepEqual(
+    _.multiply(C, D),
+    [[14]],
+    "Matrix Multiplication with Matrix should work"
+  );
   assert.end();
 });

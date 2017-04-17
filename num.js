@@ -37,14 +37,14 @@ module.exports = {
     // return this.colMap(out, row => row);
     // the above is way easier to reason about than:
     const self = this;
-    return B.map((row) => {
+    return B.map(row => {
       const slice = [];
       self.colEach(A, (val, r, c) => {
         if (!slice[c]) {
           slice[c] = 0;
         }
         // return a matrix where the column of each row is the dot product of B.row & A.col
-        slice[c] += val * row[r]
+        slice[c] += val * row[r];
       });
       return slice;
     });
@@ -61,11 +61,11 @@ module.exports = {
   colMap(M, cb) {
     assert.ok(this.isMatrix(M), "arg to colMap must be a Matrix");
     const { n, m } = this.shape(M);
-    var out = []
+    var out = [];
     for (var col = 0; col < m; col++) {
       let slice = [];
       for (var row = 0; row < n; row++) {
-        slice.push(M[row][col])
+        slice.push(M[row][col]);
       }
       out.push(cb(slice, col));
     }

@@ -14,25 +14,26 @@ module.exports = {
       .reduce((sum, val) => sum + val, 0);
   },
   multiplyMv(M, v) {
-    assert.ok(this.isMatrix(M), "first arg to multiplyMv must be a matrix");
-    const { n: rowB, m: colB } = this.shape(M);
-    const { n: rowA, m: colA } = this.shape(v);
-    assert.equal(colB, rowA, "dimension of M and v must be compatible");
+    assert.ok(this.isMatrix(M), "First arg to multiplyMv must be a matrix");
+    const { m } = this.shape(M);
+    const { n } = this.shape(v);
+    assert.equal(m, n, "Dimensions of M and v must be compatible");
     return M.map(row => this.dot(row, v));
   },
   multiply(B, A) {
-    assert.ok(this.isMatrix(B), "first arg to multiply must be a matrix");
+    assert.ok(this.isMatrix(B), "First arg to multiply must be a matrix");
     const isVector = this.isVector(A);
     const isMatrix = this.isMatrix(A);
     assert.ok(
       isVector || isMatrix,
-      "second arg to multiply must be a vector or a matrix"
+      "Second arg to multiply must be a vector or a matrix"
     );
-    const { n: rowB, m: colB } = this.shape(B);
-    const { n: rowA, m: colA } = this.shape(A);
     if (isVector) {
       return this.multiplyMv(B, A);
     }
+    const { m } = this.shape(B);
+    const { n } = this.shape(A);
+    assert.equal(m, n, "Dimensions of A and B must be compatible");
     // const out = this.colMap(A, (v, idx) => this.multiplyMv(B, v));
     // return this.colMap(out, row => row);
     // the above is way easier to reason about than:
@@ -50,7 +51,8 @@ module.exports = {
     });
   },
   colEach(M, cb) {
-    assert.ok(this.isMatrix(M), "arg to colMap must be a Matrix");
+    assert.ok(this.isMatrix(M), "First arg to colMap must be a Matrix");
+    assert.ok(cb, "Second arg to colMap must be a callback");
     const { n, m } = this.shape(M);
     for (var col = 0; col < m; col++) {
       for (var row = 0; row < n; row++) {
@@ -59,7 +61,8 @@ module.exports = {
     }
   },
   colMap(M, cb) {
-    assert.ok(this.isMatrix(M), "arg to colMap must be a Matrix");
+    assert.ok(this.isMatrix(M), "First Arg to colMap must be a Matrix");
+    assert.ok(cb, "Second arg to colMap must be a callback");
     const { n, m } = this.shape(M);
     var out = [];
     for (var col = 0; col < m; col++) {

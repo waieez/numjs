@@ -41,7 +41,7 @@ test("isVector", function(assert) {
 });
 
 test("shape", function(assert) {
-  const { v, A } = setup();
+  const { v, A, D } = setup();
   let shape = _.shape(v);
   assert.equal(shape.n, 2, "vectors should be represented as 2x1 matrix");
   assert.equal(shape.m, 1, "vectors should be represented as 2x1 matrix");
@@ -49,6 +49,10 @@ test("shape", function(assert) {
   shape = _.shape(A);
   assert.equal(shape.n, 2, "n of a 2x2 matrix should be 2");
   assert.equal(shape.m, 2, "m of a 2x2 matrix should be 2");
+
+  shape = _.shape(D);
+  assert.equal(shape.n, 3, "n of a 3x1 matrix should be 3");
+  assert.equal(shape.m, 1, "m of a 3x1 matrix should be 1");
   assert.end();
 });
 

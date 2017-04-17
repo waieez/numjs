@@ -8,7 +8,8 @@ function setup() {
     A: [[1, 2], [3, 4]],
     B: [[5, 6], [7, 8]],
     C: [[1, 2, 3]],
-    D: [[1], [2], [3]]
+    D: [[1], [2], [3]],
+    E: [[1, 1, 1], [1, 1, 1]]
   };
 }
 
@@ -72,7 +73,7 @@ test("multiplication, MxV", function(assert) {
 });
 
 test("multiplication, MxM", function(assert) {
-  const { A, B, C, D } = setup();
+  const { A, B, C, D, E } = setup();
   assert.deepEqual(
     _.multiply(A, B),
     [[19, 22], [43, 50]],
@@ -81,7 +82,18 @@ test("multiplication, MxM", function(assert) {
   assert.deepEqual(
     _.multiply(C, D),
     [[14]],
-    "Matrix Multiplication with Matrix should work"
+    "Matrix Multiplication with Matrix should work: [1,3] x [3,1] => [1x1]"
+  );
+  const AE = _.multiply(A, E);
+  assert.deepEqual(
+    AE,
+    [[3, 3, 3], [7, 7, 7]],
+    "Matrix Multiplication with Matrix should work: [2x2] x [2x3] => [2x3]"
+  );
+  assert.deepEqual(
+    _.multiply(AE, D),
+    [[18], [42]],
+    "Matrix Multiplication with Matrix should work: [2x2] X [2x3] x [3x1] => [2x1]"
   );
   assert.end();
 });

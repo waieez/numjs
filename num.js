@@ -74,6 +74,12 @@ module.exports = {
     }
     return out;
   },
+  transpose(M) {
+    if (!this.isMatrix(M) && this.isVector(M)) {
+      M = [M];
+    }
+    return this.colMap(M, col => col);
+  },
   isMatrix(M) {
     return Array.isArray(M) && M.length > 0 && Array.isArray(M[0]);
   },

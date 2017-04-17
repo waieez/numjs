@@ -57,13 +57,28 @@ test("shape", assert => {
   assert.end();
 });
 
-test("multiplication, MxV", assert => {
-  const { A, B, v } = setup();
+test("scale", assert => {
+  const { v, A } = setup();
   assert.deepEqual(
-    _.multiplyMv(A, v),
-    [5, 11],
-    "Vector Multiplication with Matrix should work"
+    _.scale(v, 2),
+    [2, 4],
+    "Scale should work with Vectors and constants"
   );
+  assert.deepEqual(
+    _.scale(A, 2),
+    [[2, 4], [6, 8]],
+    "Scale should work with Matrix and constants"
+  );
+  assert.deepEqual(
+    _.scale(A, v),
+    [5, 11],
+    "Scale should work with Matrix and vectors"
+  );
+  assert.end();
+});
+
+test("multiplication, MxV", assert => {
+  const { A, v } = setup();
   assert.deepEqual(
     _.multiply(A, v),
     [5, 11],

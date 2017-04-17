@@ -4,12 +4,12 @@ module.exports = {
   add,
   dot,
   multiply,
+  scale,
   transpose,
 
   // helpers
   isMatrix,
   isVector,
-  multiplyMv,
   shape
 };
 
@@ -33,7 +33,7 @@ function multiply(B, A) {
   const isM = isMatrix(A);
   assert.ok(isV || isM, "Second arg to multiply must be a vector or a matrix");
   if (isV) {
-    return multiplyMv(B, A);
+    return scale(B, A);
   }
   const { m } = shape(B);
   const { n } = shape(A);
@@ -52,6 +52,22 @@ function multiply(B, A) {
     });
     return slice;
   });
+}
+
+function scale(M, scalar) {
+  if (isVector(M)) {
+    assert.ok(!isVector(scalar), "Vector scalars must be constant values");
+    return M.map(val => val * scalar);
+  }
+  const isM = isMatrix(M);
+  assert.ok(isM, "First argument to scale must be a Matrix or Vector");
+  if (isVector(scalar)) {
+    const { m } = shape(M);
+    const { n } = shape(scalar);
+    assert.equal(m, n, "Dimensions of M and scalar vector must be compatible");
+    return M.map(row => dot(row, scalar));
+  }
+  return M.map(row => scale(row, scalar));
 }
 
 function transpose(M) {
@@ -86,14 +102,6 @@ function colMap(M, cb) {
     out.push(cb(slice, col));
   }
   return out;
-}
-
-function multiplyMv(M, v) {
-  assert.ok(isMatrix(M), "First arg to multiplyMv must be a matrix");
-  const { m } = shape(M);
-  const { n } = shape(v);
-  assert.equal(m, n, "Dimensions of M and v must be compatible");
-  return M.map(row => dot(row, v));
 }
 
 function isMatrix(M) {

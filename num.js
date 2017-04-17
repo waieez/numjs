@@ -2,12 +2,11 @@ const assert = require("assert");
 
 module.exports = {
   add(v, w) {
-    assert.ok(this.isVector(v));
-    assert.ok(this.isVector(w));
-    assert.equal(v.length, w.length);
+    this._vectorsAreCompatible(v, w);
     return v.map((el, idx) => el + w[idx]);
   },
   dot(v, w) {
+    this._vectorsAreCompatible(v, w);
     return v
       .map((el, idx) => {
         return el * w[idx];
@@ -77,6 +76,11 @@ module.exports = {
   },
   isVector(v) {
     return Array.isArray(v) && !Array.isArray(v[0]);
+  },
+  _vectorsAreCompatible(v, w) {
+    assert.ok(this.isVector(v));
+    assert.ok(this.isVector(w));
+    assert.equal(v.length, w.length);
   },
   shape(M) {
     const isVector = this.isVector(M);
